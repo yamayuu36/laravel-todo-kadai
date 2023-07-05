@@ -10,7 +10,7 @@ class PostController extends Controller
 {
     //一覧ページ
     public function index() {
-        $posts = Post::latest()->get();
+        $posts = Post::oldest()->get();
         return view('posts.index',compact('posts'));
     }
 
@@ -22,8 +22,8 @@ class PostController extends Controller
     // 作成機能
     public function store(Request $request) {
         $request->validate([
-            'title'=>'required',
-            'content'=>'required',
+            'title'=>'required|max:40',
+            'content'=>'required|ma:200',
         ]);
         $post = new Post();
         $post->title = $request->input('title');
@@ -46,8 +46,8 @@ class PostController extends Controller
     // 更新機能
     public function update(Request $request, Post $post) {
         $request->validate([
-            'title'=>'required',
-            'content'=>'required',
+            'title'=>'required|max:40',
+            'content'=>'required|max:200',
         ]);
         $post->title = $request->input('title');
         $post->content = $request->input('content');
